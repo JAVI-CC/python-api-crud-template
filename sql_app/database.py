@@ -1,20 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-env = os.getenv("APP_ENV", "dev")
-load_dotenv(f".env.{env}")
+from dependencies.read_env import getenv
 
 creedentials = {
-    "driver": os.getenv("DB_DRIVER"),
-    "user": os.getenv("DB_USERNAME"),
-    "password": os.getenv("DB_PASSWORD"),
-    "host": os.getenv("DB_HOST"),
-    "port": os.getenv("DB_PORT"),
-    "database": os.getenv("DB_DATABASE"),
+    "driver": getenv("DB_DRIVER"),
+    "user": getenv("DB_USERNAME"),
+    "password": getenv("DB_PASSWORD"),
+    "host": getenv("DB_HOST"),
+    "port": getenv("DB_PORT"),
+    "database": getenv("DB_DATABASE"),
 }
 
 SQLALCHEMY_DATABASE_URL = f"{creedentials['driver']}+pymysql://{creedentials['user']}:{creedentials['password']}@{creedentials['host']}:{creedentials['port']}/{creedentials['database']}"

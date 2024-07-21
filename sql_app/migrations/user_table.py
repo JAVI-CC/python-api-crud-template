@@ -6,5 +6,6 @@ sys.path.append(ROOT_DIR)
 
 from models import user as User
 from database import engine
+import sql_app.migrations.init as init
 
 User.Base.metadata.create_all(bind=engine)

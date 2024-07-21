@@ -1,7 +1,13 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from database import Base
-from .role import Role
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .role import Role
+else:
+    Role = "Role"
+
 
 class User(Base):
     __tablename__ = "users"

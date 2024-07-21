@@ -4,7 +4,13 @@ class RoleBase(BaseModel):
     id: str
     name: str
 
-class Role(RoleBase):
+class RoleCreate(RoleBase):
+    pass # para crear la clase
 
+class RoleCreateSeeder(RoleBase):
+    pass # para crear la clase
+
+class Role(RoleBase):
+    
     class Config:
-        orm_mode = True
+        from_attributes = True
