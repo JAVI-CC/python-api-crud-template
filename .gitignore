@@ -168,4 +168,4 @@ cython_debug/
 .env.dev
 .env.prod
 
-storage/avatars/*
+app/storage/avatars/*
