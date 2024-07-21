@@ -167,3 +167,5 @@ cython_debug/
 .env
 .env.dev
 .env.prod
+
+storage/avatars/*

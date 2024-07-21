@@ -35,4 +35,5 @@ async def login_for_access_token(
 async def read_auth_me(
     current_user: Annotated[SchemaUser, Depends(get_current_active_user)],
 ):
+
     return current_user

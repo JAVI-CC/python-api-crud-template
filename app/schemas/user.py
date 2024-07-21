@@ -3,6 +3,7 @@ from pydantic import (
     Field,
     field_validator,
     model_validator,
+    computed_field,
     EmailStr,
 )
 from importlib import import_module
@@ -11,6 +12,8 @@ from typing_extensions import Self
 from schemas.role import Role
 from datetime import datetime
 from dependencies.regex import pydantic_password_format
+from dependencies.read_env import getenv
+from dependencies.date_formatter import date_format_server_to_client
 
 
 class UserBase(BaseModel):
@@ -20,16 +23,11 @@ class UserBase(BaseModel):
     is_active: bool | None = Field(default=True)
     email: EmailStr
 
-    @property
-    def fullname(self) -> str:
-        return f"{self.name} {self.surnames}"
-
 
 class UserCreate(UserBase):
     password: str = Field(pattern=pydantic_password_format)
     password_confirmation: str = Field(pattern=pydantic_password_format)
     role_id: str
-    # avatar: str
 
     @field_validator("role_id")
     @classmethod
@@ -57,7 +55,6 @@ class UserUpdate(BaseModel):
     age: Optional[int] = Field(min=18, max=150, default=None)
     is_active: Optional[bool] = Field(default=None)
     role_id: Optional[str] = Field(default=None)
-    # avatar: str
 
     @field_validator("role_id")
     @classmethod
@@ -101,6 +98,37 @@ class User(UserBase):
     role: Role
     created_at: datetime
     updated_at: datetime
+
+    @computed_field
+    @property
+    def fullname(self) -> str:
+        return f"{self.name} {self.surnames}"
+
+    @computed_field
+    @property
+    def avatar(self) -> list | None:
+        if not self.avatar_name_file:
+            return None
+
+        return [
+            {
+                "filename": self.avatar_name_file,
+                "path": f"{getenv('APP_URL')}/avatar/{self.avatar_name_file}",
+            }
+        ]
+
+    @computed_field
+    @property
+    def dates_formats(self) -> list:
+        return [
+            {
+                "email_verified_at": date_format_server_to_client(
+                    str(self.email_verified_at)
+                ),
+                "created_at": date_format_server_to_client(str(self.created_at)),
+                "updated_at": date_format_server_to_client(str(self.updated_at)),
+            }
+        ]
 
     class Config:
         from_attributes = True

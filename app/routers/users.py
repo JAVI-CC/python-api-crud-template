@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, APIRouter, status
+from fastapi import Depends, HTTPException, APIRouter, status, UploadFile
 from sqlalchemy.orm import Session
 from typing import Annotated
 from schemas.auth import Token as SchemaToken
@@ -16,6 +16,7 @@ from dependencies.user.validations_before_actions import (
     is_admin_user,
     update_rol_admin,
     delete_user_not_also,
+    validate_user_image_avatar,
 )
 
 
@@ -73,7 +74,7 @@ async def update_values_user(
     db: Session = Depends(get_db),
 ):
 
-    await update_rol_admin(current_user, user_id, user)  # Validation
+    update_rol_admin(current_user, user_id, user)  # Validation
 
     db_user = actions_user.update_user(db, user_id, user)
     if db_user is None:
@@ -93,9 +94,9 @@ async def drop_user(
     db: Session = Depends(get_db),
 ):
 
-    await delete_user_not_also(current_user.id, user_id)  # Validation
+    delete_user_not_also(current_user.id, user_id)  # Validation
 
-    is_drop_user = actions_user.delete_user(db, user_id)
+    is_drop_user = await actions_user.delete_user(db, user_id)
 
     if is_drop_user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -121,3 +122,21 @@ async def update_password_current_user(
     access_token = actions_auth.generate_access_token(data={"sub": current_user.email})
 
     return SchemaToken(access_token=access_token, token_type="bearer")
+
+
+@router.post(
+    "/upload_avatar",
+    response_model=SchemaUser,
+    dependencies=[Depends(get_current_active_user)],
+)
+async def upload_avatar(
+    current_user: Annotated[SchemaUser, Depends(get_current_active_user)],
+    file: UploadFile,
+    db: Session = Depends(get_db),
+):
+
+    validate_user_image_avatar(file)  # Validation
+
+    user = await actions_user.add_avatar_user(db, current_user, file)
+
+    return user
