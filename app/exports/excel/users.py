@@ -80,7 +80,7 @@ def export_excel_list_users(users_list: list[SchemaUser]):
         )
         col_num += 1
         worksheet.write(
-            position_row, col_num, "True" if row_data.is_active else "False"
+            position_row, col_num, "Yes" if row_data.is_active else "No"
         )
         col_num += 1
         worksheet.write(position_row, col_num, row_data.role.name)

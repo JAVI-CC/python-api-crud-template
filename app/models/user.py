@@ -2,7 +2,6 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from database import Base
 from typing import TYPE_CHECKING
-from .role import Role # Delete import
 
 if TYPE_CHECKING:
     from .role import Role
