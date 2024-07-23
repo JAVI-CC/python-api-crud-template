@@ -56,7 +56,6 @@ def export_excel_list_users(users_list: list[SchemaUser]):
     align_left = workbook.add_format({"align": "Left"})
 
     for row_num, row_data in enumerate(users_list):
-        print(row_data.email_verified_at)
         position_row = row_num + 2
         col_num = 0
 
