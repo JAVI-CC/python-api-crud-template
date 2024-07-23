@@ -25,7 +25,7 @@ def get_user_by_email(db: Session, email: str):
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(ModelUser).offset(skip).limit(limit).all()
+    return db.query(ModelUser).order_by(ModelUser.name).offset(skip).limit(limit).all()
 
 
 def create_user(db: Session, user: SchemaUserCreate):

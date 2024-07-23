@@ -18,6 +18,7 @@ from dependencies.user.validations_before_actions import (
     delete_user_not_also,
     validate_user_image_avatar,
 )
+from exports.excel.users import export_excel_list_users
 
 
 router = APIRouter(
@@ -140,3 +141,14 @@ async def upload_avatar(
     user = await actions_user.add_avatar_user(db, current_user, file)
 
     return user
+
+
+@router.get(
+    "/export/excel",
+    response_description="xlsx",
+    dependencies=[Depends(is_admin_user)],
+)
+def export_excel_users(db: Session = Depends(get_db)):
+    users = actions_user.get_users(db)
+    
+    return export_excel_list_users(users)

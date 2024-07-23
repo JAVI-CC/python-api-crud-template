@@ -122,8 +122,10 @@ class User(UserBase):
     def dates_formats(self) -> list:
         return [
             {
-                "email_verified_at": date_format_server_to_client(
-                    str(self.email_verified_at)
+                "email_verified_at": (
+                    date_format_server_to_client(str(self.email_verified_at))
+                    if self.email_verified_at is not None
+                    else None
                 ),
                 "created_at": date_format_server_to_client(str(self.created_at)),
                 "updated_at": date_format_server_to_client(str(self.updated_at)),
