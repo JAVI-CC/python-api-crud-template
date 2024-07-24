@@ -1,12 +1,13 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from database import Base
-from typing import TYPE_CHECKING
+#from typing import TYPE_CHECKING
+from importlib import import_module
 
-if TYPE_CHECKING:
-    from .role import Role
-else:
-    Role = "Role"
+# if TYPE_CHECKING:
+#     from .role import Role
+# else:
+#     Role = "Role"
 
 
 class User(Base):
@@ -25,4 +26,5 @@ class User(Base):
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
 
-    role = relationship("Role", back_populates="users")
+    import_module("models.role", "Role")
+    role = relationship("Role", back_populates="users", lazy='subquery')

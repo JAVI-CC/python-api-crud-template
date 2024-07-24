@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+
+  <h5>List of users</h5>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surnames</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Verified email date</th>
+        <th>Is active ?</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.surnames }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ date_fomat(user.email_verified_at|string) if user.email_verified_at else 'Unverified user!' }}</td>
+        <td>{{ 'Yes' if user.is_active else 'No' }}</td>
+        <td>{{ user.role.name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+
+</html>

@@ -19,6 +19,7 @@ from dependencies.user.validations_before_actions import (
     validate_user_image_avatar,
 )
 from exports.excel.users import export_excel_list_users
+from exports.pdf.users import export_pdf_list_users
 
 
 router = APIRouter(
@@ -152,3 +153,14 @@ def export_excel_users(db: Session = Depends(get_db)):
     users = actions_user.get_users(db)
     
     return export_excel_list_users(users)
+
+
+@router.get(
+    "/export/pdf",
+    response_description="pdf",
+    dependencies=[Depends(is_admin_user)],
+)
+def export_excel_users(db: Session = Depends(get_db)):
+    users = actions_user.get_users(db)
+    
+    return export_pdf_list_users(users)

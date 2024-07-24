@@ -3,7 +3,7 @@ from routers.users import router as UserRouter
 from routers.roles import router as RoleRouter
 from routers.auth import router as AuthRouter
 from migrations import *
-from seeders.init import *
+from seeders import *
 from fastapi.staticfiles import StaticFiles
 from enums.storage_path import StoragePath
 
