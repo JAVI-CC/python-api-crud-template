@@ -5,6 +5,7 @@ from fastapi import (
     status,
     UploadFile,
     BackgroundTasks,
+    Request,
 )
 from sqlalchemy.orm import Session
 from typing import Annotated
@@ -33,6 +34,7 @@ from exports.pdf.users import export_pdf_list_users
 import dependencies.itsdangerous as token_utils
 import mail.user as mail_user
 from datetime import datetime
+from dependencies.slowapi_init import limiter, limit_value
 
 router = APIRouter(
     prefix="/users",
@@ -50,7 +52,10 @@ router = APIRouter(
     response_model=list[SchemaUser],
     dependencies=[Depends(get_current_active_verified_user)],
 )
-async def show_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+@limiter.limit(limit_value)
+async def show_users(
+    request: Request, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
+):
     users = actions_user.get_users(db, skip, limit)
     return users
 
@@ -60,7 +65,8 @@ async def show_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_
     response_model=SchemaUser,
     dependencies=[Depends(get_current_active_verified_user)],
 )
-async def show_user(user_id: str, db: Session = Depends(get_db)):
+@limiter.limit(limit_value)
+async def show_user(request: Request, user_id: str, db: Session = Depends(get_db)):
     db_user = actions_user.get_user(db, user_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -72,7 +78,9 @@ async def show_user(user_id: str, db: Session = Depends(get_db)):
     response_model=SchemaUser,
     dependencies=[Depends(is_admin_user)],
 )
+@limiter.limit(limit_value)
 async def add_user(
+    request: Request,
     background_tasks: BackgroundTasks,
     user: SchemaUserCreate,
     db: Session = Depends(get_db),
@@ -99,7 +107,9 @@ async def add_user(
     response_model=SchemaUser,
     dependencies=[Depends(is_admin_user)],
 )
+@limiter.limit(limit_value)
 async def update_values_user(
+    request: Request,
     current_user: Annotated[SchemaUser, Depends(get_current_active_verified_user)],
     user_id: str,
     user: SchemaUserUpdate,
@@ -120,7 +130,9 @@ async def update_values_user(
     status_code=204,
     dependencies=[Depends(is_admin_user)],
 )
+@limiter.limit(limit_value)
 async def drop_user(
+    request: Request,
     current_user: Annotated[SchemaUser, Depends(get_current_active_verified_user)],
     user_id: str,
     db: Session = Depends(get_db),
@@ -141,7 +153,9 @@ async def drop_user(
     response_model=SchemaToken,
     dependencies=[Depends(get_current_active_verified_user)],
 )
+@limiter.limit(limit_value)
 async def update_password_current_user(
+    request: Request,
     current_user: Annotated[SchemaUser, Depends(get_current_active_verified_user)],
     user: SchemaUserUpdatePassword,
     db: Session = Depends(get_db),
@@ -161,7 +175,9 @@ async def update_password_current_user(
     response_model=SchemaUser,
     dependencies=[Depends(get_current_active_verified_user)],
 )
+@limiter.limit(limit_value)
 async def upload_avatar(
+    request: Request,
     current_user: Annotated[SchemaUser, Depends(get_current_active_verified_user)],
     file: UploadFile,
     db: Session = Depends(get_db),
@@ -179,7 +195,8 @@ async def upload_avatar(
     response_description="xlsx",
     dependencies=[Depends(is_admin_user)],
 )
-def export_excel_users(db: Session = Depends(get_db)):
+@limiter.limit(limit_value)
+def export_excel_users(request: Request, db: Session = Depends(get_db)):
     users = actions_user.get_users(db)
 
     return export_excel_list_users(users)
@@ -190,7 +207,8 @@ def export_excel_users(db: Session = Depends(get_db)):
     response_description="pdf",
     dependencies=[Depends(is_admin_user)],
 )
-def export_excel_users(db: Session = Depends(get_db)):
+@limiter.limit(limit_value)
+def export_excel_users(request: Request, db: Session = Depends(get_db)):
     users = actions_user.get_users(db)
 
     return export_pdf_list_users(users)
@@ -200,7 +218,10 @@ def export_excel_users(db: Session = Depends(get_db)):
     "/confirm_email/{token}",
     status_code=202,
 )
-async def verified_user_email(token: str, db: Session = Depends(get_db)):
+@limiter.limit(limit_value)
+async def verified_user_email(
+    request: Request, token: str, db: Session = Depends(get_db)
+):
     user_verify = token_utils.verify_token(token, db)
 
     if user_verify.email_verified_at:
@@ -219,7 +240,9 @@ async def verified_user_email(token: str, db: Session = Depends(get_db)):
     status_code=200,
     dependencies=[Depends(get_current_active_user)],
 )
+@limiter.limit(limit_value)
 async def resend_verify_user_email(
+    request: Request,
     background_tasks: BackgroundTasks,
     current_user: Annotated[SchemaUser, Depends(get_current_active_user)],
 ):

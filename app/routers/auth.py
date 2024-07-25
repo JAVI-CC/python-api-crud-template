@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, APIRouter, status
+from fastapi import Depends, HTTPException, APIRouter, status, Request
 from sqlalchemy.orm import Session
 from typing import Annotated
 from schemas.auth import Token as SchemaToken, Login as SchemaLogin
@@ -6,6 +6,7 @@ from schemas.user import User as SchemaUser
 from dependencies.db import get_db
 import actions.auth as actions_auth
 from dependencies.jwt.get_current_user import get_current_active_user
+from dependencies.slowapi_init import limiter, limit_value
 
 router = APIRouter(
     prefix="/auth",
@@ -18,7 +19,9 @@ router = APIRouter(
 
 
 @router.post("/login", response_model=SchemaToken)
+@limiter.limit(limit_value)
 async def login_for_access_token(
+    request: Request,
     creedentials: SchemaLogin, db: Session = Depends(get_db)
 ):
     user = actions_auth.login(db, creedentials.email, creedentials.password)
@@ -32,7 +35,9 @@ async def login_for_access_token(
 
 
 @router.get("/me", response_model=SchemaUser)
+@limiter.limit(limit_value)
 async def read_auth_me(
+    request: Request,
     current_user: Annotated[SchemaUser, Depends(get_current_active_user)],
 ):
 
