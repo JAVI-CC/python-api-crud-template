@@ -5,5 +5,6 @@ load_dotenv()
 env = os.getenv("APP_ENV", "dev")
 load_dotenv(f".env.{env}")
 
-def getenv(key: str) -> str:
-  return os.getenv(key)
+
+def getenv(key: str, default="") -> str:
+    return os.getenv(key, default)

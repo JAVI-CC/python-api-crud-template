@@ -6,10 +6,12 @@ from migrations import *
 from seeders import *
 from fastapi.staticfiles import StaticFiles
 from enums.storage_path import StoragePath
+from dependencies.timezone_init import *
 
 app = FastAPI()
 
 app.mount("/avatar", StaticFiles(directory=StoragePath.AVATARS.value), name="avatar")
+app.mount("/static", StaticFiles(directory=StoragePath.STATIC_IMAGES.value), name="static")
 
 app.include_router(AuthRouter)
 app.include_router(UserRouter)

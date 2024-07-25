@@ -16,6 +16,7 @@ services:
       - ./:/code
     depends_on:
       - db
+      - smtp
 
   db:
     image: mariadb:11.2.2
@@ -26,6 +27,26 @@ services:
       - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
+
+  smtp:
+    image: jcalonso/mailhog:v1.0.1
+    container_name: python-api-crud-template-smtp
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # smtp server
+      - "8025:8025" # web ui
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /home/mailhog
+    volumes:
+      - smtp-data:/home/mailhog
+
  
+networks:
+  python-api-crud-template:
+    driver: bridge
+
 volumes:
   db-data:
+  smtp-data:
+

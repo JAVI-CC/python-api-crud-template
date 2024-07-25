@@ -4,13 +4,13 @@ from typing import Annotated
 from database import engine
 from schemas.user import User as SchemaUser, UserUpdate as SchemaUserUpdate
 from enums.rol_type import RolType
-from dependencies.jwt.get_current_user import get_current_user
+from dependencies.jwt.get_current_user import get_current_active_verified_user
 from actions.user import count_admin_users
 from dependencies.http_exceptions import forbidden_exception
 
 
 def is_admin_user(
-    current_user: Annotated[SchemaUser, Depends(get_current_user)],
+    current_user: Annotated[SchemaUser, Depends(get_current_active_verified_user)],
 ):
 
     if current_user.role.id != RolType.ADMIN.value:

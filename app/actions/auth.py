@@ -6,6 +6,11 @@ from dependencies.jwt.configs import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_
 import actions.user as actions_user
 from schemas.auth import Token as SchemaToken
 import actions.user as actions_user
+from dependencies.http_exceptions import (
+    forbidden_exception,
+    login_incorrect_exception,
+    email_not_exists_exception,
+)
 
 
 def login(db: Session, email: str, password: str):
@@ -13,9 +18,12 @@ def login(db: Session, email: str, password: str):
     user = actions_user.get_user_by_email(db, email)
 
     if not user:
-        return None
-    if not verify_password(password, user.hashed_password):
-        return None
+        return email_not_exists_exception
+    elif not user.is_active:
+        return forbidden_exception
+    elif not verify_password(password, user.hashed_password):
+        return login_incorrect_exception
+
     return user
 
 
