@@ -1,6 +1,7 @@
 from fastapi import Depends, HTTPException, status, UploadFile
 from sqlalchemy.orm import Session
 from typing import Annotated
+import i18n
 from database import engine
 from schemas.user import User as SchemaUser, UserUpdate as SchemaUserUpdate
 from enums.rol_type import RolType
@@ -34,7 +35,7 @@ def update_rol_admin(
     ):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="There must be at least 1 administrator",
+            detail=f"{i18n.t('there_must_be_at_least_1_administrator')}",
         )
 
     return True
@@ -45,7 +46,7 @@ def delete_user_not_also(current_user_id: str, update_user_id: str):
     if current_user_id == update_user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="You cannot eliminate yourself",
+            detail=f"{i18n.t('you_cannot_eliminate_yourself')}",
         )
 
     return True
@@ -59,12 +60,12 @@ def validate_user_image_avatar(file: UploadFile):
     if file.content_type not in accepted_file_types:
         raise HTTPException(
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-            detail="Unsupported file type",
+            detail=f"{i18n.t('unsupported_file_type')}",
         )
 
     if file.size > FILE_SIZE:
         raise HTTPException(
-            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail="Too large"
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail=f"{i18n.t('too_large')}"
         )
     
     return True

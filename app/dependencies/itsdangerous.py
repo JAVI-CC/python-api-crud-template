@@ -1,10 +1,10 @@
 from itsdangerous import URLSafeTimedSerializer, BadTimeSignature, SignatureExpired
 from fastapi import HTTPException, status
-from dependencies.jwt.configs import SECRET_KEY
 from pydantic import EmailStr
+import i18n
+from dependencies.jwt.configs import SECRET_KEY
 from dependencies.read_env import getenv
 import actions.user as actions_user
-from schemas.user import User as SchemaUser
 from sqlalchemy.orm import Session
 from dependencies.http_exceptions import token_expiration_exception
 
@@ -27,7 +27,7 @@ def verify_token(token: str, db: Session):
         if not user or user.is_active is False:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"User with email {email} does not exist",
+                detail=f"{i18n.t('user_with_email_does_not_exist', email=email)}",
             )
     except SignatureExpired:
         raise token_expiration_exception

@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, Request
+from middlewares.i18n import I18nMiddleware
 from routers.users import router as UserRouter
 from routers.roles import router as RoleRouter
 from routers.auth import router as AuthRouter
@@ -11,6 +12,8 @@ from slowapi import _rate_limit_exceeded_handler
 from dependencies.slowapi_init import limiter
 
 app = FastAPI()
+
+app.add_middleware(I18nMiddleware)
 
 app.state.limiter = limiter
 app.add_exception_handler(429, _rate_limit_exceeded_handler)

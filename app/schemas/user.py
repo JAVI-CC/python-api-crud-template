@@ -12,9 +12,8 @@ from typing_extensions import Self
 from schemas.role import Role
 from datetime import datetime
 from dependencies.regex import pydantic_password_format
-from dependencies.read_env import getenv
 from dependencies.date_formatter import date_format_server_to_client
-
+from enums.storage_path import StoragePath
 
 class UserBase(BaseModel):
     name: str = Field(min_length=3, max_length=50)
@@ -113,7 +112,7 @@ class User(UserBase):
         return [
             {
                 "filename": self.avatar_name_file,
-                "path": f"{getenv('APP_URL')}/avatar/{self.avatar_name_file}",
+                "path": f"{StoragePath.AVATARS_URL.value}/{self.avatar_name_file}",
             }
         ]
 

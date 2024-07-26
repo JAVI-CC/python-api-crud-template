@@ -18,11 +18,11 @@ def login(db: Session, email: str, password: str):
     user = actions_user.get_user_by_email(db, email)
 
     if not user:
-        return email_not_exists_exception
+        raise email_not_exists_exception
     elif not user.is_active:
-        return forbidden_exception
+        raise forbidden_exception
     elif not verify_password(password, user.hashed_password):
-        return login_incorrect_exception
+        raise login_incorrect_exception
 
     return user
 

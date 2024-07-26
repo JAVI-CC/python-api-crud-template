@@ -1,5 +1,6 @@
 from fastapi import Depends, HTTPException, APIRouter, status, Request
 from sqlalchemy.orm import Session
+import i18n
 from schemas.role import Role as SchemaRole
 import actions.role as actions_role
 from dependencies.db import get_db
@@ -11,9 +12,9 @@ router = APIRouter(
     prefix="/roles",
     tags=["role"],
     responses={
-        status.HTTP_401_UNAUTHORIZED: {"message": "Could not validate credentials."},
-        status.HTTP_404_NOT_FOUND: {"message": "Role not found."},
-        status.HTTP_500_INTERNAL_SERVER_ERROR: {"message": "Internal server error."},
+        status.HTTP_401_UNAUTHORIZED: {"message": f"{i18n.t('could_not_validate_credentials')}"},
+        status.HTTP_404_NOT_FOUND: {"message": f"{i18n.t('role_not_found')}"},
+        status.HTTP_500_INTERNAL_SERVER_ERROR: {"message": f"{i18n.t('internal_server_error')}"},
     },
     dependencies=[Depends(is_admin_user)],
 )
@@ -31,5 +32,5 @@ async def show_roles(request: Request, db: Session = Depends(get_db)):
 async def show_role(request: Request, role_id: str, db: Session = Depends(get_db)):
     db_role = actions_role.get_role(db, role_id=role_id)
     if db_role is None:
-        raise HTTPException(status_code=404, detail="Role not found.")
+        raise HTTPException(status_code=404, detail=f"{i18n.t('role_not_found')}")
     return db_role
