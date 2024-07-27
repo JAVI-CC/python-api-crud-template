@@ -27,6 +27,8 @@
   <li>Primary key format UUID.</li>
   <li>Contains endpoints of type GET, POST, PATCH, PUT and DELETE</li>
   <li>Generate token by JWT (Json web tokens)</li>
+  <li>SQLAlchemy.</li>
+  <li>Pydantic.</li>
   <li>Postman collection.json file to import and create use endpoints.</li>
   <li>Requests validations.</li>
   <li>Exception handling.</li>
