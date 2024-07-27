@@ -67,7 +67,7 @@ async def delete_user(db: Session, user_id: str):
         return None
 
     if db_user.avatar_name_file:
-        await delete_file(f"{StoragePath.AVATARS.value}/{db_user.avatar_name_file}")
+        await delete_file(f"{StoragePath.get_avatar_path(db_user.avatar_name_file)}")
 
     db.delete(db_user)
     db.commit()
@@ -104,7 +104,7 @@ async def add_avatar_user(db: Session, user_auth: SchemaUser, file: UploadFile):
 
     name_file = f"{user_auth.id}.png"
 
-    await save_upload_file(file, f"{StoragePath.AVATARS.value}/{name_file}")
+    await save_upload_file(file, f"{StoragePath.get_avatar_path(name_file)}")
 
     db_user.avatar_name_file = name_file
 

@@ -14,7 +14,7 @@ def send_email_verify_user_background(
     output_text = template.render(
         {
             "url": url_verify,
-            "assets": StoragePath.STATIC_IMAGES_URL.value,
+            "assets": StoragePath.get_static_images_path,
         }
     )
 

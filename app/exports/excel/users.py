@@ -123,7 +123,7 @@ def insert_cell_image(worksheet, position: tuple, avatar_name_file: str | None):
     position_row, position_col = position
 
     if avatar_name_file:
-        path_image = f"{StoragePath.AVATARS.value}/{avatar_name_file}"
+        path_image = f"{StoragePath.get_avatar_path(avatar_name_file)}"
     else:
         path_image = StoragePath.AVATAR_DEFAULT.value
 

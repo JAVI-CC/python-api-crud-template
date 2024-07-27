@@ -1,0 +1,583 @@
+{
+	"info": {
+		"_postman_id": "ddc50a36-a168-4fda-974c-de533929b300",
+		"name": "Python Template",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10351467"
+	},
+	"item": [
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Show all roles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/roles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show rol by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/roles/fcad485b-3a80-4237-a56a-0f7f29d7b148",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"fcad485b-3a80-4237-a56a-0f7f29d7b148"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Show all users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show user by id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/users/9c044c6e-2946-4304-ab58-c645d2ccb034",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"9c044c6e-2946-4304-ab58-c645d2ccb034"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add user",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"MR.python\",\r\n  \"surnames\": \"new lenguage\",\r\n  \"age\": 25,\r\n  \"is_active\": true,\r\n  \"email\": \"python@senior.org\",\r\n  \"password\": \"Pass-1234\",\r\n  \"password_confirmation\": \"Pass-1234\",\r\n  \"role_id\": \"fcad485b-3a80-4237-a56a-0f7f29d7b148\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload avatar user",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/necer/Downloads/images-_1_.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/users/upload_avatar",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"upload_avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user by id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"MR.python Update 2.0\",\r\n  \"surnames\": \"update lenguage 2.0\",\r\n  \"age\": 26,\r\n  \"is_active\": false,\r\n  \"role_id\": \"fcad485b-3a80-4237-a56a-0f7f29d7b148\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/9c04a129-36ef-48fe-b4aa-7ebf7602f8a6",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"9c04a129-36ef-48fe-b4aa-7ebf7602f8a6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update password current user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"token\", jsonData.token_type + ' ' + jsonData.access_token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"password\": \"Pass-1234\",\r\n  \"password_confirmation\": \"Pass-1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/update_password",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"update_password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete user by id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/users/9c04a129-36ef-48fe-b4aa-7ebf7602f8a6",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"9c04a129-36ef-48fe-b4aa-7ebf7602f8a6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export excel users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/users/export/excel",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"export",
+										"excel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export pdf users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/users/export/pdf",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"export",
+										"pdf"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User verification email",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/users/confirm_email/InB5dGhvbkBzZW5pb3Iub3JnIg.ZqJq3A.VH1_6n7Md5DBV7JDSTxPo_7vYFY",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"confirm_email",
+										"InB5dGhvbkBzZW5pb3Iub3JnIg.ZqJq3A.VH1_6n7Md5DBV7JDSTxPo_7vYFY"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Resend user verification email",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/users/resend/confirm_email",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"resend",
+										"confirm_email"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"token\", jsonData.token_type + ' ' + jsonData.access_token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "us-US",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"admin@email.com\",\r\n    \"password\": \"Pass-1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/auth/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/auth/me",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"auth",
+										"me"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -112,7 +112,7 @@ class User(UserBase):
         return [
             {
                 "filename": self.avatar_name_file,
-                "path": f"{StoragePath.AVATARS_URL.value}/{self.avatar_name_file}",
+                "path": f"{StoragePath.get_avatar_url(self.avatar_name_file)}",
             }
         ]
 
