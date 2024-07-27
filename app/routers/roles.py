@@ -1,22 +1,26 @@
 from fastapi import Depends, HTTPException, APIRouter, status, Request
 from sqlalchemy.orm import Session
 import i18n
-from schemas.role import Role as SchemaRole
 import actions.role as actions_role
 from dependencies.db import get_db
-from dependencies.user.validations_before_actions import is_admin_user
+import dependencies.user.validations_before_actions as validations_actions
 from dependencies.slowapi_init import limiter, limit_value
+from schemas.role import Role as SchemaRole
 
 
 router = APIRouter(
     prefix="/roles",
     tags=["role"],
     responses={
-        status.HTTP_401_UNAUTHORIZED: {"message": f"{i18n.t('could_not_validate_credentials')}"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "message": f"{i18n.t('could_not_validate_credentials')}"
+        },
         status.HTTP_404_NOT_FOUND: {"message": f"{i18n.t('role_not_found')}"},
-        status.HTTP_500_INTERNAL_SERVER_ERROR: {"message": f"{i18n.t('internal_server_error')}"},
+        status.HTTP_500_INTERNAL_SERVER_ERROR: {
+            "message": f"{i18n.t('internal_server_error')}"
+        },
     },
-    dependencies=[Depends(is_admin_user)],
+    dependencies=[Depends(validations_actions.is_admin_user)],
 )
 
 

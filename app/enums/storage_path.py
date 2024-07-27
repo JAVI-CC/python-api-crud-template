@@ -1,6 +1,6 @@
 from enum import Enum
-from dependencies.root_dir import ROOT_DIR
 from dependencies.read_env import getenv
+from dependencies.root_dir import ROOT_DIR
 
 INIT = f"{ROOT_DIR}/storage"
 

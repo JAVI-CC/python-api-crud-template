@@ -78,7 +78,7 @@
     "email": "hoangle@verizon.net",
     "email_verified_at": null,
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c044cc8-65ca-43d3-b87c-239778628daa.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 12:20:20",
     "updated_at": "2024-05-11 12:20:20"
@@ -92,7 +92,7 @@
     "email": "user2@gmail.com",
     "email_verified_at": "11-05-2024 16:06:31",
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c044d99-8112-4b63-b829-1cdfba1b609a.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 12:22:37",
     "updated_at": "2024-05-11 16:06:31"
@@ -106,7 +106,7 @@
     "email": "user3@gmail.com",
     "email_verified_at": null,
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c049bcf-d43f-445b-8a0d-105da7828b76.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 16:01:18",
     "updated_at": "2024-05-11 16:01:18"
@@ -120,7 +120,7 @@
     "email": "user4@gmail.com",
     "email_verified_at": "11-05-2024 16:06:46",
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c049f03-7597-43f2-acf1-2ab4b6a11594.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 16:10:16",
     "updated_at": "2024-05-11 16:10:46"
@@ -134,7 +134,7 @@
     "email": "user5@gmail.com",
     "email_verified_at": "11-05-2024 16:24:01",
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c04a129-36ef-48fe-b4aa-7ebf7602f8a6.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 16:16:16",
     "updated_at": "2024-05-11 16:24:01"
@@ -148,7 +148,7 @@
     "email": "user6@gmail.com",
     "email_verified_at": "11-05-2024 16:27:17",
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c04a49b-811e-456c-81b8-1391c4834af9.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 16:25:54",
     "updated_at": "2024-05-11 16:27:17"
@@ -162,7 +162,7 @@
     "email": "user7@gmail.com",
     "email_verified_at": "11-05-2024 16:29:37",
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c04a5ad-e1b7-40ae-9011-4d4d330ecfe5.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 16:28:54",
     "updated_at": "2024-05-11 16:29:32"
@@ -176,7 +176,7 @@
     "email": "user8@gmail.com",
     "email_verified_at": "11-05-2024 16:34:25",
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c04a74d-a6bd-4a0b-9ef2-fbc7b8d4c68e.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 16:33:26",
     "updated_at": "2024-05-11 16:34:25"
@@ -190,7 +190,7 @@
     "email": "user9@gmail.com",
     "email_verified_at": "11-05-2024 16:37:55",
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c04a84d-cb2c-4eb3-bf4e-988e3f09a6cd.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 16:36:14",
     "updated_at": "2024-05-11 16:37:55"
@@ -204,7 +204,7 @@
     "email": "user10@gmail.com",
     "email_verified_at": "11-05-2024 16:40:05",
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c04a962-6bb9-426a-9da2-7babc1e83184.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-11 16:39:16",
     "updated_at": "2024-05-11 16:40:05"
@@ -218,7 +218,7 @@
     "email": "user90@gmail.com",
     "email_verified_at": null,
     "hashed_password": "Pass-1234",
-    "avatar_name_file": "9c1e7452-35c6-4cb0-81e0-e8b6c8260f47.png",
+    "avatar_name_file": null,
     "role_id": "fcad485b-3a80-4237-a56a-0f7f29d7b148",
     "created_at": "2024-05-24 12:22:24",
     "updated_at": "2024-05-24 12:22:24"

@@ -1,15 +1,15 @@
 from itsdangerous import URLSafeTimedSerializer, BadTimeSignature, SignatureExpired
 from fastapi import HTTPException, status
 from pydantic import EmailStr
-import i18n
-from dependencies.jwt.configs import SECRET_KEY
-from dependencies.read_env import getenv
-import actions.user as actions_user
 from sqlalchemy.orm import Session
-from dependencies.http_exceptions import token_expiration_exception
+import i18n
+import actions.user as actions_user
+from dependencies.read_env import getenv
+import dependencies.jwt.configs as jwt_config
+import dependencies.http_exceptions as http_except
 
 token_algo = URLSafeTimedSerializer(
-    SECRET_KEY, salt="Email_Verification_&_Forgot_password"
+    jwt_config.SECRET_KEY, salt="Email_Verification_&_Forgot_password"
 )
 
 
@@ -30,7 +30,7 @@ def verify_token(token: str, db: Session):
                 detail=f"{i18n.t('user_with_email_does_not_exist', email=email)}",
             )
     except SignatureExpired:
-        raise token_expiration_exception
+        raise http_except.token_expiration_exception
     except BadTimeSignature:
-        raise token_expiration_exception
+        raise http_except.token_expiration_exception
     return user

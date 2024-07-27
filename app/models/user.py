@@ -1,8 +1,8 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from database import Base
-#from typing import TYPE_CHECKING
 from importlib import import_module
+#from typing import TYPE_CHECKING
 
 # if TYPE_CHECKING:
 #     from .role import Role

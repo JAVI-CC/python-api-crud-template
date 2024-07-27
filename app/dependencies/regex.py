@@ -1,10 +1,10 @@
+from typing import Annotated, Final
+import re
 from pydantic import (
     Field,
     TypeAdapter,
     ConfigDict,
 )
-from typing import Annotated, Final
-import re
 
 # FORMAT YYYY-mm-dd hh:mm:ss
 date_format_server = r"[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]"

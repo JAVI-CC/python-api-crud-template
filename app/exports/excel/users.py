@@ -1,10 +1,10 @@
-import xlsxwriter
 import io
+import PIL.Image as Image
+import xlsxwriter
 from fastapi.responses import StreamingResponse
-from schemas.user import User as SchemaUser
 from dependencies.date_formatter import date_format_server_to_client
 from enums.storage_path import StoragePath
-import PIL.Image as Image
+from schemas.user import User as SchemaUser
 
 
 def export_excel_list_users(users_list: list[SchemaUser]):

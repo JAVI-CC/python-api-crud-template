@@ -1,3 +1,6 @@
+from datetime import datetime
+from typing import Optional
+from typing_extensions import Self
 from pydantic import (
     BaseModel,
     Field,
@@ -7,13 +10,10 @@ from pydantic import (
     EmailStr,
 )
 from importlib import import_module
-from typing import Optional
-from typing_extensions import Self
-from schemas.role import Role
-from datetime import datetime
-from dependencies.regex import pydantic_password_format
+import dependencies.regex  as regex
 from dependencies.date_formatter import date_format_server_to_client
 from enums.storage_path import StoragePath
+from schemas.role import Role
 
 class UserBase(BaseModel):
     name: str = Field(min_length=3, max_length=50)
@@ -24,8 +24,8 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str = Field(pattern=pydantic_password_format)
-    password_confirmation: str = Field(pattern=pydantic_password_format)
+    password: str = Field(pattern=regex.pydantic_password_format)
+    password_confirmation: str = Field(pattern=regex.pydantic_password_format)
     role_id: str
 
     @field_validator("role_id")
@@ -63,8 +63,8 @@ class UserUpdate(BaseModel):
 
 
 class UserUpdatePassword(BaseModel):
-    password: str = Field(pattern=pydantic_password_format)
-    password_confirmation: str = Field(pattern=pydantic_password_format)
+    password: str = Field(pattern=regex.pydantic_password_format)
+    password_confirmation: str = Field(pattern=regex.pydantic_password_format)
 
     @model_validator(mode="after")
     def check_passwords_match(self) -> Self:

@@ -1,3 +1,5 @@
+from typing import Annotated
+from datetime import datetime
 from fastapi import (
     Depends,
     HTTPException,
@@ -8,8 +10,9 @@ from fastapi import (
     Request,
 )
 from sqlalchemy.orm import Session
-from typing import Annotated
 import i18n
+import actions.user as actions_user
+import actions.auth as actions_auth
 from schemas.auth import Token as SchemaToken
 from schemas.user import (
     User as SchemaUser,
@@ -17,25 +20,14 @@ from schemas.user import (
     UserUpdate as SchemaUserUpdate,
     UserUpdatePassword as SchemaUserUpdatePassword,
 )
-import actions.user as actions_user
-import actions.auth as actions_auth
 from dependencies.db import get_db
-from dependencies.jwt.get_current_user import (
-    get_current_active_user,
-    get_current_active_verified_user,
-)
-from dependencies.user.validations_before_actions import (
-    is_admin_user,
-    update_rol_admin,
-    delete_user_not_also,
-    validate_user_image_avatar,
-)
+import dependencies.jwt.get_current_user as jwt_user
+import dependencies.user.validations_before_actions as validations_actions
+import dependencies.itsdangerous as token_utils
+from dependencies.slowapi_init import limiter, limit_value
 from exports.excel.users import export_excel_list_users
 from exports.pdf.users import export_pdf_list_users
-import dependencies.itsdangerous as token_utils
 import mail.user as mail_user
-from datetime import datetime
-from dependencies.slowapi_init import limiter, limit_value
 
 router = APIRouter(
     prefix="/users",
@@ -55,7 +47,7 @@ router = APIRouter(
 @router.get(
     "/",
     response_model=list[SchemaUser],
-    dependencies=[Depends(get_current_active_verified_user)],
+    dependencies=[Depends(jwt_user.get_current_active_verified_user)],
 )
 @limiter.limit(limit_value)
 async def show_users(
@@ -68,7 +60,7 @@ async def show_users(
 @router.get(
     "/{user_id}",
     response_model=SchemaUser,
-    dependencies=[Depends(get_current_active_verified_user)],
+    dependencies=[Depends(jwt_user.get_current_active_verified_user)],
 )
 @limiter.limit(limit_value)
 async def show_user(request: Request, user_id: str, db: Session = Depends(get_db)):
@@ -81,7 +73,7 @@ async def show_user(request: Request, user_id: str, db: Session = Depends(get_db
 @router.post(
     "/",
     response_model=SchemaUser,
-    dependencies=[Depends(is_admin_user)],
+    dependencies=[Depends(validations_actions.is_admin_user)],
 )
 @limiter.limit(limit_value)
 async def add_user(
@@ -100,9 +92,6 @@ async def add_user(
         )
     except:
         pass
-    else:
-        db.commit()
-        db.refresh(new_user)
 
     return new_user
 
@@ -110,18 +99,20 @@ async def add_user(
 @router.put(
     "/{user_id}",
     response_model=SchemaUser,
-    dependencies=[Depends(is_admin_user)],
+    dependencies=[Depends(validations_actions.is_admin_user)],
 )
 @limiter.limit(limit_value)
 async def update_values_user(
     request: Request,
-    current_user: Annotated[SchemaUser, Depends(get_current_active_verified_user)],
+    current_user: Annotated[
+        SchemaUser, Depends(jwt_user.get_current_active_verified_user)
+    ],
     user_id: str,
     user: SchemaUserUpdate,
     db: Session = Depends(get_db),
 ):
 
-    update_rol_admin(current_user, user_id, user)  # Validation
+    validations_actions.update_rol_admin(current_user, user_id, user)  # Validation
 
     db_user = actions_user.update_user(db, user_id, user)
     if db_user is None:
@@ -133,17 +124,19 @@ async def update_values_user(
     "/{user_id}",
     response_model=None,
     status_code=204,
-    dependencies=[Depends(is_admin_user)],
+    dependencies=[Depends(validations_actions.is_admin_user)],
 )
 @limiter.limit(limit_value)
 async def drop_user(
     request: Request,
-    current_user: Annotated[SchemaUser, Depends(get_current_active_verified_user)],
+    current_user: Annotated[
+        SchemaUser, Depends(jwt_user.get_current_active_verified_user)
+    ],
     user_id: str,
     db: Session = Depends(get_db),
 ):
 
-    delete_user_not_also(current_user.id, user_id)  # Validation
+    validations_actions.delete_user_not_also(current_user.id, user_id)  # Validation
 
     is_drop_user = await actions_user.delete_user(db, user_id)
 
@@ -156,12 +149,14 @@ async def drop_user(
 @router.patch(
     "/update_password",
     response_model=SchemaToken,
-    dependencies=[Depends(get_current_active_verified_user)],
+    dependencies=[Depends(jwt_user.get_current_active_verified_user)],
 )
 @limiter.limit(limit_value)
 async def update_password_current_user(
     request: Request,
-    current_user: Annotated[SchemaUser, Depends(get_current_active_verified_user)],
+    current_user: Annotated[
+        SchemaUser, Depends(jwt_user.get_current_active_verified_user)
+    ],
     user: SchemaUserUpdatePassword,
     db: Session = Depends(get_db),
 ):
@@ -178,17 +173,19 @@ async def update_password_current_user(
 @router.post(
     "/upload_avatar",
     response_model=SchemaUser,
-    dependencies=[Depends(get_current_active_verified_user)],
+    dependencies=[Depends(jwt_user.get_current_active_verified_user)],
 )
 @limiter.limit(limit_value)
 async def upload_avatar(
     request: Request,
-    current_user: Annotated[SchemaUser, Depends(get_current_active_verified_user)],
+    current_user: Annotated[
+        SchemaUser, Depends(jwt_user.get_current_active_verified_user)
+    ],
     file: UploadFile,
     db: Session = Depends(get_db),
 ):
 
-    validate_user_image_avatar(file)  # Validation
+    validations_actions.validate_user_image_avatar(file)  # Validation
 
     user = await actions_user.add_avatar_user(db, current_user, file)
 
@@ -198,7 +195,7 @@ async def upload_avatar(
 @router.get(
     "/export/excel",
     response_description="xlsx",
-    dependencies=[Depends(is_admin_user)],
+    dependencies=[Depends(validations_actions.is_admin_user)],
 )
 @limiter.limit(limit_value)
 def export_excel_users(request: Request, db: Session = Depends(get_db)):
@@ -210,7 +207,7 @@ def export_excel_users(request: Request, db: Session = Depends(get_db)):
 @router.get(
     "/export/pdf",
     response_description="pdf",
-    dependencies=[Depends(is_admin_user)],
+    dependencies=[Depends(validations_actions.is_admin_user)],
 )
 @limiter.limit(limit_value)
 def export_excel_users(request: Request, db: Session = Depends(get_db)):
@@ -243,13 +240,13 @@ async def verified_user_email(
 @router.get(
     "/resend/confirm_email",
     status_code=200,
-    dependencies=[Depends(get_current_active_user)],
+    dependencies=[Depends(jwt_user.get_current_active_user)],
 )
 @limiter.limit(limit_value)
 async def resend_verify_user_email(
     request: Request,
     background_tasks: BackgroundTasks,
-    current_user: Annotated[SchemaUser, Depends(get_current_active_user)],
+    current_user: Annotated[SchemaUser, Depends(jwt_user.get_current_active_user)],
 ):
 
     if current_user.email_verified_at:

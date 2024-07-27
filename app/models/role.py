@@ -1,8 +1,8 @@
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from importlib import import_module
 from database import Base
 #from typing import TYPE_CHECKING
-from importlib import import_module
 
 # if TYPE_CHECKING:
 #     from .user import User

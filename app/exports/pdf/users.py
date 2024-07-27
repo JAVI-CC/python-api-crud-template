@@ -1,11 +1,11 @@
 import pdfkit
-from dependencies.jinja2_init import init as jinja2_init
-from schemas.user import User as SchemaUser
 from fastapi import Response
+from dependencies.jinja2_init import init as jinja2_init
 from dependencies.root_dir import ROOT_DIR
 from dependencies.date_formatter import date_format_server_to_client
 from enums.settings import Settings
 from enums.storage_path import StoragePath
+from schemas.user import User as SchemaUser
 
 
 def export_pdf_list_users(users_list: list[SchemaUser]):

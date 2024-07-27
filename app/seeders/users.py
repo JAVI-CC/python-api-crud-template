@@ -1,11 +1,11 @@
+import json
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from database import engine
+from dependencies.hash_password import hash_password
 from dependencies.root_dir import ROOT_DIR
 from models.user import User as ModelUser
 from schemas.user import UserCreateSeeder as SchemaUserCreateSeeder
-from dependencies.hash_password import hash_password
-import json
 
 json_file = open(f"{ROOT_DIR}/seeders/data/users.json")
 

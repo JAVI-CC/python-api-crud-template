@@ -1,13 +1,13 @@
+from typing import Annotated
 from fastapi import Depends, HTTPException, APIRouter, status, Request
 from sqlalchemy.orm import Session
-from typing import Annotated
 import i18n
+import actions.auth as actions_auth
+from dependencies.db import get_db
+import dependencies.jwt.get_current_user as jwt_user
+from dependencies.slowapi_init import limiter, limit_value
 from schemas.auth import Token as SchemaToken, Login as SchemaLogin
 from schemas.user import User as SchemaUser
-from dependencies.db import get_db
-import actions.auth as actions_auth
-from dependencies.jwt.get_current_user import get_current_active_user
-from dependencies.slowapi_init import limiter, limit_value
 
 router = APIRouter(
     prefix="/auth",
@@ -42,7 +42,7 @@ async def login_for_access_token(
 @limiter.limit(limit_value)
 async def read_auth_me(
     request: Request,
-    current_user: Annotated[SchemaUser, Depends(get_current_active_user)],
+    current_user: Annotated[SchemaUser, Depends(jwt_user.get_current_active_user)],
 ):
 
     return current_user

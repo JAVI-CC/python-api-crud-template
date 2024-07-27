@@ -9,7 +9,7 @@ services:
     container_name: python-api-crud-template-app
     restart: unless-stopped
     # command: fastapi run app/main.py --port 8000 # Production mode
-    # command: fastapi run app/main.py --port 8000 --reload # Development mode
+    command: fastapi run app/main.py --port 8000 --reload # Development mode
     ports:
       - 8000:8000
     volumes:

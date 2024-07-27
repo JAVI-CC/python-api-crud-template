@@ -1,8 +1,8 @@
 # token_validation.py
-import jwt
 from fastapi import HTTPException
-from dependencies.jwt.configs import SECRET_KEY, ALGORITHM
+import jwt
 import i18n
+import dependencies.jwt.configs as jwt_config
 
 
 # Function to verify the access token extracted from the request
@@ -12,7 +12,7 @@ def verify_access_token(request):
 
     try:
         # Decode and verify the token using the secret key and algorithm
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, jwt_config.SECRET_KEY, algorithms=[jwt_config.ALGORITHM])
         return payload
     except jwt.ExpiredSignatureError:
         # Raise an HTTPException with status code 401 if the token has expired

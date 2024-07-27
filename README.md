@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://fastapi.tiangolo.com"><img src="logo-python-fastapi.png" alt="FastAPI"></a>
+  <a href="https://fastapi.tiangolo.com"><img src="app/static/readme/logo-python-fastapi.png" alt="FastAPI"></a>
 </p>
 <p align="center">
     <em>FastAPI framework, high performance, easy to learn, fast to code, ready for production</em>
@@ -98,6 +98,9 @@
 
 <span> OpenAPI documentation: <a href="http://localhost:8000/docs" target="_blank">http://localhost:8000/docs</a>
 </span>
+<img src="app/static/readme/image-openapi-docs.png" alt="FastAPI">
+
+
 <h3>Endpoints Auth:</h3>
 <table>
 <thead>
