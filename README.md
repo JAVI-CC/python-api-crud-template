@@ -98,7 +98,7 @@
 
 <span> OpenAPI documentation: <a href="http://localhost:8000/docs" target="_blank">http://localhost:8000/docs</a>
 </span>
-<span></span>
+<p></p>
 <img src="app/static/readme/image-openapi-docs.png" alt="FastAPI">
 
 
