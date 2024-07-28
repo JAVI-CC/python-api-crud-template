@@ -167,3 +167,4 @@ cython_debug/
 .env.prod
 
 app/storage/avatars/*
+!app/storage/avatars/.gitkeep
