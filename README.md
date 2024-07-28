@@ -312,8 +312,8 @@
 $ cd python-api-crud-template
 $ cp .env.example .env.dev
 $ docker compose up -d
-$ docker compose exec app chmod +x ./run.sh
-$ docker compose exec app ./run.sh</code>
+$ docker compose exec app chmod +x ./docker-config/run.sh
+$ docker compose exec app ./docker-config/run.sh</code>
 </pre>
 
 <br>
